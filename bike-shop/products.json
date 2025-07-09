@@ -1,0 +1,28 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Dağ Bisikleti X200",
+      "category": "Dağ Bisikleti",
+      "price": 4500,
+      "image": "download.png width=300 height=200",
+      "stock": 15
+    },
+    {
+      "id": 2,
+      "name": "Yol Bisikleti Racer",
+      "category": "Yol Bisikleti",
+      "price": 6200,
+      "image": "https://via.placeholder.com/300x200?text=Yol+Bisikleti",
+      "stock": 8
+    },
+    {
+      "id": 3,
+      "name": "Şehir Bisikleti Urban",
+      "category": "Şehir Bisikleti",
+      "price": 3800,
+      "image": "https://via.placeholder.com/300x200?text=Şehir+Bisikleti",
+      "stock": 12
+    }
+  ]
+}

@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bisiklet Dünyası - E-Ticaret Sitesi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Temel Stiller */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: #2c3e50;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .logo span {
+            color: #3498db;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+            position: relative;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #3498db;
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Dropdown Menüler */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            width: 220px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+            z-index: 1000;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu li {
+            margin: 0;
+            padding: 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown-menu li:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-menu a {
+            color: #333 !important;
+            padding: 1rem !important;
+            display: block !important;
+            transition: background 0.3s !important;
+        }
+
+        .dropdown-menu a:hover {
+            color: #3498db !important;
+            background: #f8f9fa !important;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, rgba(52,152,219,0.9), rgba(44,62,80,0.9)), 
+                        url('https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 2rem;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.3);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .hero button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .hero button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .hero .secondary-btn {
+            background: transparent;
+            border: 2px solid white;
+        }
+
+        .hero .secondary-btn:hover {
+            background: white;
+            color: #2c3e50;
+        }
+
+        /* Animasyonlar */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Ürünler Bölümü */
+        .products {
+            padding: 5rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .products h2 {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+            color: #2c3e50;
+        }
+
+        .products-subtitle {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        /* Yönetici Kontrolleri */
+        .admin-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .add-product-btn {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .add-product-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39,174,96,0.3);
+        }
+
+        /* Filtre Butonları */
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-buttons button {
+            padding: 0.8rem 1.5rem;
+            background: #ecf0f1;
+            color: #2c3e50;
+            border: 2px solid transparent;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        .filter-buttons button:hover {
+            background: #3498db;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .filter-buttons button.active {
+            background: #2c3e50;
+            color: white;
+            border-color: #2c3e50;
+        }
+
+        /* Ürün Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* Ürün Kartları */
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-card h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .product-card .price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-card .stock {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-card .category {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(52,152,219,0.9);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .product-card button {
+            width: 100%;
+            padding: 0.8rem;
+            background: linear-gradient(45deg, #3498db, #2ecc71);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        .product-card button:hover {
+            background: linear-gradient(45deg, #2980b9, #27ae60);
+            transform: translateY(-2px);
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalIn 0.3s ease-out;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-content h2 {
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+
+        .modal-content form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .modal-content input,
+        .modal-content select {
+            padding: 1rem;
+            border: 2px solid #ecf0f1;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .modal-content input:focus,
+        .modal-content select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .modal-content button {
+            padding: 1rem;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        .modal-content button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .close-modal {
+            background: #e74c3c !important;
+            margin-top: 1rem;
+        }
+
+        .close-modal:hover {
+            background: #c0392b !important;
+        }
+
+        /* Sepet */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+            transition: right 0.3s;
+            z-index: 1500;
+            overflow-y: auto;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            background: #2c3e50;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .cart-items {
+            padding: 1rem;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .cart-total {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #2c3e50;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+                margin-top: 1rem;
+            }
+            
+            .nav-links li {
+                margin: 0;
+                padding: 0.5rem 0;
+            }
+            
+            .dropdown-menu {
+                position: static;
+                width: 100%;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s;
+            }
+            
+            .dropdown.active .dropdown-menu {
+                max-height: 500px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .products {
+                padding: 3rem 3%;
+            }
+            
+            .filter-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .modal-content {
+                padding: 2rem;
+                margin: 1rem;
+            }
+            
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #27ae60;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 3000;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .notification.error {
+            background: #e74c3c;
+        }
+
+        /* Loading */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            font-size: 1.2rem;
+            color: #7f8c8d;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #ecf0f1;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #7f8c8d;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo" onclick="showAllProducts()">
+            Bisiklet<span>Dünyası</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" onclick="showAllProducts()">Ana Sayfa</a></li>
+            <li class="dropdown">
+                <a href="#">Bisikletler <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" onclick="filterProducts('Dağ Bisikleti')">Dağ Bisikleti</a></li>
+                    <li><a href="#" onclick="filterProducts('Yol Bisikleti')">Yol Bisikleti</a></li>
+                    <li><a href="#" onclick="filterProducts('Şehir Bisikleti')">Şehir Bisikleti</a></li>
+                    <li><a href="#" onclick="filterProducts('Elektrikli Bisiklet')">Elektrikli Bisiklet</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#">Yedek Parça <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" onclick="filterProducts('Fren Sistemi')">Fren Sistemi</a></li>
+                    <li><a href="#" onclick="filterProducts('Vites Sistemi')">Vites Sistemi</a></li>
+                    <li><a href="#" onclick="filterProducts('Jant ve Tekerlek')">Jant ve Tekerlek</a></li>
+                    <li><a href="#" onclick="filterProducts('Aksesuarlar')">Aksesuarlar</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#">Giyim <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" onclick="filterProducts('Kasklar')">Kasklar</a></li>
+                    <li><a href="#" onclick="filterProducts('Bisiklet Ayakkabısı')">Bisiklet Ayakkabısı</a></li>
+                    <li><a href="#" onclick="filterProducts('Formalar')">Formalar</a></li>
+                    <li><a href="#" onclick="filterProducts('Eldivenler')">Eldivenler</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#">Antrenman <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" onclick="filterProducts('Bisiklet Standı')">Bisiklet Standı</a></li>
+                    <li><a href="#" onclick="filterProducts('Antrenman Aletleri')">Antrenman Aletleri</a></li>
+                    <li><a href="#" onclick="filterProducts('Ölçüm Cihazları')">Ölçüm Cihazları</a></li>
+                </ul>
+            </li>
+            <li><a href="#" onclick="toggleCart()"><i class="fas fa-shopping-cart"></i> Sepet (<span id="cart-count">0</span>)</a></li>
+            <li><a href="#" onclick="toggleAdmin()"><i class="fas fa-user-cog"></i> Yönetici</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Bisiklet Tutkunuzu Keşfedin</h1>
+            <p>En kaliteli bisikletler ve ekipmanlar ile pedallayın!</p>
+            <div class="hero-buttons">
+                <button onclick="showAllProducts()">Alışverişe Başla</button>
+                <button class="secondary-btn" onclick="showAddProductForm()">Ürün Ekle</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ürünler Bölümü -->
+    <section class="products">
+        <h2>Öne Çıkan Ürünler</h2>
+        <p class="products-subtitle">En kaliteli bisikletler ve aksesuarlar burada</p>
+        
+        <!-- Yönetici Kontrolleri -->
+        <div class="admin-controls" id="admin-controls" style="display: none;">
+            <button class="add-product-btn" onclick="showAddProductForm()">
+                <i class="fas fa-plus"></i> Yeni Ürün Ekle
+            </button>
+        </div>
+
+        <!-- Filtre Butonları -->
+        <div class="filter-buttons">
+            <button onclick="showAllProducts()" class="active" id="all-btn">
+                <i class="fas fa-th"></i> Tümü
+            </button>
+            <button onclick="filterProducts('Dağ Bisikleti')">
+                <i class="fas fa-mountain"></i> Dağ Bisikleti
+            </button>
+            <button onclick="filterProducts('Yol Bisikleti')">
+                <i class="fas fa-road"></i> Yol Bisikleti
+            </button>
+            <button onclick="filterProducts('Şehir Bisikleti')">
+                <i class="fas fa-city"></i> Şehir Bisikleti
+            </button>
+            <button onclick="filterProducts('Elektrikli Bisiklet')">
+                <i class="fas fa-bolt"></i> Elektrikli
+            </button>
+        </div>
+
+        <!-- Ürün Grid -->
+        <div class="product-grid" id="product-grid">
+            <!-- Ürünler buraya yüklenecek -->
+             
+        </div>
+    </section>
+
+    <!-- Sepet Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3><i class="fas fa-shopping-cart"></i> Sepetim</h3>
+            <button class="cart-close" onclick="toggleCart()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Sepet öğeleri buraya gelecek -->
+        </div>
+        <div class="cart-total">
+            <div>Toplam: <span id="cart-total">0</span> TL</div>
+        </div>
+    </div>
+
+    <script>
+        // Global değişkenler
+        let allProducts = [
+            {
+                id: 1,
+                name: "Canyon MTB",
+                category: "Dağ Bisikleti",
+                price: 145000,
+                image: "https://enduro-mtb.com/wp-content/uploads/2022/12/Canyon_Strive_CFR_Vergleichstest_beste_Enduro_2023_END_WEB_Res-6752-1536x1024.jpg",
+                stock: 8
+            },
+            {
+                id: 2,
+                name: "Canyon Yol Bisikleti",
+                category: "Yol Bisikleti",
+                price: 150000,
+                image: "https://escapecollective.com/content/images/wordpress/2025/01/2025-Canyon-SRAM-Neve-Bradbury-team-bike-Escape-Collective-Dave-Rome-1-1.jpg",
+                stock: 20
+            },
+            {
+                id: 3,
+                name: "Canyon Şehir Bisikleti",
+                category: "Şehir Bisikleti",
+                price: 8000,
+                image: "https://www.canyon.com/dw/image/v2/BCML_PRD/on/demandware.static/-/Sites-canyon-storefront/default/dwc7096c8b/category-landing/seo-landing/seo-color-city-carbon.jpg?sw=632&sh=356&sm=cut&sfrm=jpg&q=80",
+                stock: 10
+            },
+            {
+                id: 4,
+                name: "Canyon Elektrikli MTB",
+                category: "Elektrikli Bisiklet",
+                price: 128500,
+                image: "https://ebike-mtb.com/wp-content/uploads/sites/2/2021/02/Canyon_TorqueON_9_2021_E-MTB-Review-Test-7048-1-1536x1024.jpg",
+                stock: 5
+            },
+            {
+                id: 5,
+                name: "Profesyonel Bisiklet Kaskı",
+                category: "Kasklar",
+                price: 7500,
+                image: "https://cdn2.lvr-cycles.com/54890-home_default/aero-road-helmet-kask-nirvana-black-matt.jpg",
+                stock: 25
+            },
+            {
+                id: 6,
+                name: "Garmin Edge 530 GPS",
+                category: "Bisiklet GPS",
+                price: 17000,
+                image: "https://cdn1.lvr-cycles.com/7606-home_default/garmin-edge-530-gps-bike-computer.jpg",
+                stock: 10
+            },
+
+            {
+                id: 7,
+                name: "Colnago V4Rs",
+                category: "Colnago V4Rs Tadej",
+                price: 250000,
+                image: "https://scontent-sof1-2.xx.fbcdn.net/v/t39.30808-6/486771423_1062017925966915_4557423986138661956_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_ohc=izKjZuC2O8QQ7kNvwH6Wd2J&_nc_oc=AdkX0P0qENEaXsJGg6iRc8TO-Q1JzInJ9H2i8oZveIvnzvREQ6uQ6gJc63pyeefzexY&_nc_zt=23&_nc_ht=scontent-sof1-2.xx&_nc_gid=WBmVYHs2FrKjr0WWPyYINA&oh=00_AfRC1hZOQckP0JhFYyvnzh_gjoWrS6BoaMVnznhAxLz-tQ&oe=68741A6F",
+                stock: 5
+            },
+
+            {
+                id: 8,
+                name: "Van Rysel Bisiklet",
+                category: "Van Rysel AG2R Bisiklet",
+                price: 200000,
+                image: "https://velo-cdn.outsideonline.com/wp-content/uploads/2024/01/Decathlon-AG2R-La-Mondiale-Van-Rysel-Team-Bike-Decathlon-AG2R-La-Mondiale-Van-Rysel-Team-Bike-CAuldPhoto-TDU-Bikes-2486.jpg?crop=535:301&width=1070&enable=upscalehttps://velo-cdn.outsideonline.com/wp-content/uploads/2024/01/Decathlon-AG2R-La-Mondiale-Van-Rysel-Team-Bike-Decathlon-AG2R-La-Mondiale-Van-Rysel-Team-Bike-CAuldPhoto-TDU-Bikes-2486.jpg?crop=535:301&width=1070&enable=upscale",
+                stock: 5
+            },
+
+            {
+                id: 9,
+                name: "Sora Eterno-Classic Forma",
+                category: "Sora Eterno-Classic Forma",
+                price: 1800,
+                image: "https://sora.cc/cdn/shop/files/Eterno-Classic-bisiklet-formasi_0920a5e3-f5ff-4ae5-8047-05eb9986d7c0.webp?v=1721036718&width=640",
+                stock: 40
+            },
+
+            {
+                id: 10,
+                name: "Sora Siyah",
+                category: "Sora Siyah Forma ",
+                price: 1800,
+                image: "https://productimages.hepsiburada.net/s/563/424-600/110000626455320.jpg/format:webp",
+                stock: 40
+            },
+
+            {
+                id: 11,
+                name: "BMC MTB",
+                category: "BMC MTB Bisiklet",
+                price: 100000,
+                image: "https://keyassets.timeincuk.net/inspirewp/live/wp-content/uploads/sites/11/2022/07/RZ99827-1-1536x997.jpg",
+                stock: 10
+            },
+
+            {
+                id: 12,
+                name: "Van Rysel Bisiklet Ayakkabısı",
+                category: "Van Rysel Bisiklet Ayakkabısı",
+                price: 7000,
+                image: "https://velooo.fr/wp-content/uploads/2023/11/test-chaussures-van-rysel-rcr.jpg.webp",
+                stock: 10
+            },
+
+            {
+                id: 13,
+                name: "Van Rysel Matara",
+                category: "Van Rysel Matara",
+                price: 450,
+                image: "https://contents.mediadecathlon.com/p2465813/k$31c96769e7d121c2717052d21360b2cb/sq/van-rysel-elite-fly-550-ml-matara.jpg?format=auto&f=969x969",
+                stock: 30
+            },
+
+            {
+                id: 14,
+                name: "Justo Elite Trainer",
+                category: "Justo Elite Trainer",
+                price: 35000,
+                image: "https://productimages.hepsiburada.net/s/323/424-600/110000317775049.jpg/format:webp",
+                stock: 7
+            },
+
+            {
+                id: 15,
+                name: "Van Rysel Bisiklet Gözlüğü",
+                category: "Van Rysel Bisiklet Gözlüğü Roadr-900",
+                price: 1600,
+                image: "https://contents.mediadecathlon.com/p2857997/k$97d5fccc2998a87ee68da9cefe6e4d63/sq/roadr-900-perf-beyaz-bisiklet-gozlugu.jpg?format=auto&f=969x969",
+                stock: 3
+            },
+
+            {
+                id: 16,
+                name: "Specialized Eldiven",
+                category: "Specialized Eldiven",
+                price: 250,
+                image: "https://cdn.myikas.com/images/1922dc64-c264-4e37-a2bb-111533f3b853/9854cf27-ef90-449e-a53b-55991edc7775/180/67019-1823.webp",
+                stock: 21
+            },
+
+            {
+                id: 17,
+                name: "Sora Çorap",
+                category: "Sora Bisiklet Çorabı",
+                price: 200,
+                image: "https://sora.cc/cdn/shop/files/soft-bisiklet-corabi-1.webp?v=1708179967&width=1280s",
+                stock: 40
+            }
+        ];
+
+        let cart = [];
+        let isAdminMode = false;
+
+        // Sayfa yüklendiğinde
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProducts();
+            updateCartCount();
+            
+            // Mobile dropdown toggle
+            setupMobileDropdowns();
+        });
+
+        // Mobil dropdown ayarları
+        function setupMobileDropdowns() {
+            document.querySelectorAll('.dropdown > a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (window.innerWidth <= 768) {
+                        e.preventDefault();
+                        const dropdown = this.parentElement;
+                        dropdown.classList.toggle('active');
+                    }
+                });
+            });
+
+            // Resize event
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    document.querySelectorAll('.dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                    });
+                }
+            });
+        }
+
+        // Ürünleri yükle
+        function loadProducts() {
+            displayProducts(allProducts);
+        }
+
+        // Ürünleri göster
+        function displayProducts(products) {
+            const grid = document.getElementById('product-grid');
+            
+            if (products.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <h3>Ürün Bulunamadı</h3>
+                        <p>Aradığınız kategoride ürün bulunmamaktadır.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = '';
+            
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <div class="category">${product.category}</div>
+                    <img src="${product.image}" alt="${product.name}">
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <div class="price">${product.price} TL</div>
+                        <div class="stock">Stok: ${product.stock} adet</div>
+                        <button onclick="addToCart(${product.id})">
+                            <i class="fas fa-cart-plus"></i> Sepete Ekle
+                        </button>
+                        ${isAdminMode ? `<button class="delete-btn" onclick="deleteProduct(${product.id})">
+                            <i class="fas fa-trash"></i> Sil
+                        </button>` : ''}
+                    </div>
+                `;
+                grid.appendChild(productCard);
+            });
+        }
+
+        // Sepete ürün ekle
+        function addToCart(productId) {
+            const product = allProducts.find(p => p.id === productId);
+            if (!product) return;
+
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({
+                    ...product,
+                    quantity: 1
+                });
+            }
+
+            updateCartCount();
+            showNotification(`${product.name} sepete eklendi!`);
+        }
+
+        // Ürün sil (admin)
+        function deleteProduct(productId) {
+            if (!confirm('Bu ürünü silmek istediğinize emin misiniz?')) return;
+            
+            allProducts = allProducts.filter(p => p.id !== productId);
+            displayProducts(allProducts);
+            showNotification('Ürün başarıyla silindi!', 'error');
+        }
+
+        // Sepet sayacını güncelle
+        function updateCartCount() {
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cart-count').textContent = count;
+            
+            // Toplam tutarı güncelle
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('cart-total').textContent = total;
+        }
+
+        // Sepeti göster/gizle
+        function toggleCart() {
+            const sidebar = document.getElementById('cart-sidebar');
+            sidebar.classList.toggle('open');
+            
+            if (sidebar.classList.contains('open')) {
+                renderCartItems();
+            }
+        }
+
+        // Sepet öğelerini render et
+        function renderCartItems() {
+            const container = document.getElementById('cart-items');
+            container.innerHTML = '';
+            
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h3>Sepetiniz Boş</h3>
+                        <p>Alışverişe başlamak için ürün ekleyin.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            cart.forEach(item => {
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div>
+                        <h4>${item.name}</h4>
+                        <p>${item.price} TL x ${item.quantity}</p>
+                        <button onclick="removeFromCart(${item.id})">
+                            <i class="fas fa-trash"></i> Kaldır
+                        </button>
+                    </div>
+                `;
+                container.appendChild(cartItem);
+            });
+        }
+
+        // Sepetten ürün kaldır
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartCount();
+            renderCartItems();
+            showNotification('Ürün sepetten kaldırıldı!', 'error');
+        }
+
+        // Bildirim göster
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check' : 'exclamation'}"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Admin modunu aç/kapat
+        function toggleAdmin() {
+            isAdminMode = !isAdminMode;
+            document.getElementById('admin-controls').style.display = 
+                isAdminMode ? 'flex' : 'none';
+            
+            // Tüm ürünleri yeniden render et
+            displayProducts(allProducts);
+            
+            showNotification(
+                isAdminMode ? 'Yönetici modu açıldı' : 'Yönetici modu kapatıldı',
+                isAdminMode ? 'success' : 'error'
+            );
+        }
+
+        // Ürün ekleme formunu göster
+        function showAddProductForm() {
+            if (!isAdminMode) {
+                showNotification('Ürün eklemek için yönetici modunda olmalısınız!', 'error');
+                return;
+            }
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h2><i class="fas fa-plus"></i> Yeni Ürün Ekle</h2>
+                    <form onsubmit="addNewProduct(event)">
+                        <input type="text" placeholder="Ürün Adı" id="product-name" required>
+                        <select id="product-category" required>
+                            <option value="">Kategori Seçin</option>
+                            <option value="Dağ Bisikleti">Dağ Bisikleti</option>
+                            <option value="Yol Bisikleti">Yol Bisikleti</option>
+                            <option value="Şehir Bisikleti">Şehir Bisikleti</option>
+                            <option value="Elektrikli Bisiklet">Elektrikli Bisiklet</option>
+                            <option value="Kasklar">Kasklar</option>
+                            <option value="Bisiklet Standı">Bisiklet Standı</option>
+                        </select>
+                        <input type="number" placeholder="Fiyat" id="product-price" required min="1">
+                        <input type="text" placeholder="Resim URL" id="product-image">
+                        <input type="number" placeholder="Stok Adedi" id="product-stock" required min="0">
+                        <div class="form-buttons">
+                            <button type="submit"><i class="fas fa-save"></i> Kaydet</button>
+                            <button type="button" class="close-modal" onclick="this.closest('.modal').remove()">
+                                <i class="fas fa-times"></i> İptal
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        // Yeni ürün ekle
+        function addNewProduct(event) {
+            event.preventDefault();
+            
+            const newProduct = {
+                id: allProducts.length > 0 ? Math.max(...allProducts.map(p => p.id)) + 1 : 1,
+                name: document.getElementById('product-name').value,
+                category: document.getElementById('product-category').value,
+                price: parseFloat(document.getElementById('product-price').value),
+                image: document.getElementById('product-image').value || 
+                      'https://via.placeholder.com/300x200?text=Yeni+Urun',
+                stock: parseInt(document.getElementById('product-stock').value)
+            };
+            
+            allProducts.push(newProduct);
+            displayProducts(allProducts);
+            
+            // Modalı kapat
+            event.target.closest('.modal').remove();
+            
+            showNotification(`${newProduct.name} başarıyla eklendi!`);
+        }
+
+        // Kategoriye göre filtrele
+        function filterProducts(category) {
+            const filtered = allProducts.filter(p => p.category === category);
+            displayProducts(filtered);
+            
+            // Aktif butonu güncelle
+            document.querySelectorAll('.filter-buttons button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById('all-btn').classList.remove('active');
+            
+            showNotification(`${category} kategorisi gösteriliyor`);
+        }
+
+        // Tüm ürünleri göster
+        function showAllProducts() {
+            displayProducts(allProducts);
+            
+            // Aktif butonu güncelle
+            document.querySelectorAll('.filter-buttons button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById('all-btn').classList.add('active');
+        }
+    </script>
+</body>
+</html>
